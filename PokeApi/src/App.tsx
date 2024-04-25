@@ -37,11 +37,11 @@ function App() {
       <div className='radio-inputs'>
         <label>
           <input type='radio' id='OrderByName' name='poke-radio' onChange={() => {(setOrderByPageID(false))}}></input>
-          Sort Name:
+          Sort Name
         </label>
         <label>
           <input type='radio' id='OrderByID' name='poke-radio'onChange={() => {(setOrderByPageID(true))}}></input>
-          Sort ID:
+          Sort ID
         </label>
       </div>
     </div>
