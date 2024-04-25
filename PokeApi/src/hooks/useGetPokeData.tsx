@@ -9,7 +9,7 @@ function useGetPokeData() {
 
   const getPokeData = async (pagePagnation: number) => {
     try {
-      const pokemonPerPage = 24;
+      const pokemonPerPage = 12;
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=${pokemonPerPage}&offset=` + pagePagnation);
       const data = await response.json() as PokeType;
 

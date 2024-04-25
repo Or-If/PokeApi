@@ -1,4 +1,3 @@
-import React from "react"
 import { PokemonResponseType } from "../types/PokemonResponseType";
 
 
