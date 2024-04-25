@@ -1,34 +1,55 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import useGetPokeData from './hooks/useGetPokeData'
-import PokeToPage from './components/PokeToPage' // I renamed this to be capital and its having a little fit
+import PokeToPage from './components/PokeToPage'
+import { reorderPokemon } from './utility/reorderPokemon'
 
 
 
 function App() {
   const {pokeData, getPokeData} = useGetPokeData()
-  const [pokeImg, setPokeImg] = useState<string[] | undefined>(undefined);
-  let [pagnationCount, setPagnationCount] = useState(0)
+  const [pagnationCount, setPagnationCount] = useState(0)
+  const [orderByPageID, setOrderByPageID] = useState(true);
 
   useEffect(() => {
+    console.log(pagnationCount)
     getPokeData(pagnationCount)
-  }, [pagnationCount])
+  }, [pagnationCount, orderByPageID])
 
-  const pokemonToPage = pokeData?.results.map((d) => {
-    return <PokeToPage name={d.name} img={d.img.sprites.front_default}></PokeToPage>
-  })
+  const orderPokemonOnPage = () => {
 
-
+    let pokeDataToPage;
+    if(orderByPageID) {
+      pokeDataToPage = pokeData
+    } else {
+      pokeDataToPage = reorderPokemon(pokeData)
+    }
+    
+    const pokemonToPage = pokeDataToPage?.results.map((d) => {
+      return <PokeToPage name={d.name} img={d.img} key={d.name}></PokeToPage>
+    })
+    return pokemonToPage;
+ 
+  }
   return (
     <>
+    <div className='header'>
+      <h1> All The Pokemon!</h1>
+      <label>
+        Sort Name:
+        <input type='radio' id='OrderByName' name='poke-radio' onChange={() => {(setOrderByPageID(false))}}></input>
+      </label>
+      <label>
+        Sort ID:
+        <input type='radio' id='OrderByID' name='poke-radio'onChange={() => {(setOrderByPageID(true))}}></input>
+      </label>
+    </div>
     <div className='card-container'>
-      {pokemonToPage}
+      {orderPokemonOnPage()}
     </div>
     <div className='footer'>
-      <button onChange={() => {setPagnationCount(pagnationCount++)}}>Next</button>
-      
-      <button onChange={() => {} }
-      >Back</button>
+      <button onClick={() => {setPagnationCount(pagnationCount - 12)}}>Back</button>
+      <button onClick={() => {setPagnationCount(pagnationCount + 12)}}>Next</button>
     </div>
     </>
   )
