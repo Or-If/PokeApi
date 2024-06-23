@@ -7,13 +7,13 @@ import { reorderPokemon } from './utility/reorderPokemon'
 
 function App() {
   const {pokeData, getPokeData} = useGetPokeData()
-  const [pagnationCount, setPagnationCount] = useState(0)
+  const [paginationCount, setPagnationCount] = useState(0)
   const [orderByPageID, setOrderByPageID] = useState(true);
 
   useEffect(() => {
-    console.log(pagnationCount)
-    getPokeData(pagnationCount)
-  }, [pagnationCount, orderByPageID])
+    console.log(paginationCount)
+    getPokeData(paginationCount)
+  }, [paginationCount, orderByPageID])
 
   const orderPokemonOnPage = () => {
     let pokeDataToPage;
@@ -49,8 +49,14 @@ function App() {
       {orderPokemonOnPage()}
     </div>
     <div className='footer'>
-      <button onClick={() => {setPagnationCount(pagnationCount - 12)}}>Previous 12</button>
-      <button onClick={() => {setPagnationCount(pagnationCount + 12)}}>Next 12</button>
+      <button onClick={() => {
+        if(paginationCount > 0) {
+          setPagnationCount(paginationCount - 12)
+        }}}
+      >Previous 12</button>
+      <button onClick={() => {
+        setPagnationCount(paginationCount + 12)}}
+      >Next 12</button>
     </div>
     </>
   )
